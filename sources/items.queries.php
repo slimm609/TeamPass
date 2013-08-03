@@ -63,10 +63,6 @@ $tree = new Tree\NestedTree\NestedTree($pre.'nested_tree', 'id', 'parent_id', 't
 $aes = new SplClassLoader('Encryption\Crypt', '../includes/libraries');
 $aes->register();
 
-//Load LWZ
-$lwz = new SplClassLoader('Compressor\Lwz', '../includes/libraries');
-$lwz->register();
-
 // Do asked action
 if (isset($_POST['type'])) {
     switch ($_POST['type']) {
@@ -83,7 +79,7 @@ if (isset($_POST['type'])) {
             // decrypt and retreive data in JSON format
             //$dataReceived = json_decode((Encryption\Crypt\aesctr::decrypt($_POST['data'], $_SESSION['key'], 256)), true);
             $dataReceived = prepareExchangedData($_POST['data'], "decode");
-            
+
             // Prepare variables
             $label = htmlspecialchars_decode($dataReceived['label']);
             $url = htmlspecialchars_decode($dataReceived['url']);
@@ -1872,7 +1868,7 @@ if (isset($_POST['type'])) {
             }
             //print_r($returnValues);
             // Encrypt data to return
-            echo prepareExchangedData($returnValues, "encode");           
+            echo prepareExchangedData($returnValues, "encode");
 
             break;
 

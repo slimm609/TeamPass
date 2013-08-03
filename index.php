@@ -20,6 +20,7 @@ session_start();
  */
 
 $_SESSION['CPM'] = 1;
+$_SESSION['Mysqli'] = 1;
 session_id();
 // Test if settings.file exists, if not then install
 if (!file_exists('includes/settings.php')) {
@@ -42,10 +43,15 @@ require_once $_SESSION['settings']['cpassman_dir'].'/includes/include.php';
 require_once $_SESSION['settings']['cpassman_dir'].'/sources/SplClassLoader.php';
 
 // connect to the server
-$db = new SplClassLoader('Database\Core', './includes/libraries');
-$db->register();
-$db = new Database\Core\DbCore($server, $user, $pass, $database, $pre);
-$db->connect();
+if (isset($_SESSION['Mysqli']) && $_SESSION['Mysqli'] != 1) {
+	$db = new SplClassLoader('Database\Core', './includes/libraries');
+	$db->register();
+	$db = new Database\Core\DbCore($server, $user, $pass, $database, $pre);
+	$db->connect();
+} else {
+	require_once $_SESSION['settings']['cpassman_dir'].'/includes/libraries/Database/MysqliDb/MysqliDb.php';
+	$db = new MysqliDb($server, $user, $pass, $database);
+}
 
 //load main functions needed
 require_once 'sources/main.functions.php';

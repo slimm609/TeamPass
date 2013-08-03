@@ -61,9 +61,14 @@ if (!isset($_SESSION['settings']['loaded']) || $_SESSION['settings']['loaded'] !
     $_SESSION['settings']['loaded'] = 1;
 }
 
-$rows = $db->fetchAllArray("SELECT valeur,intitule FROM ".$pre."misc WHERE type = 'admin'");
-foreach ($rows as $reccord) {
-    $_SESSION['settings'][$reccord['intitule']] = $reccord['valeur'];
+if (isset($_SESSION['Mysqli']) && $_SESSION['Mysqli'] != 1) {
+	$results = $db->fetchAllArray("SELECT valeur,intitule FROM ".$pre."misc WHERE type = 'admin'");
+} else {
+	$params = array('admin');
+	$results = $db->rawQuery("SELECT valeur,intitule FROM ".$pre."misc WHERE type = ?", $params);
+}
+foreach ($results as $reccord) {
+	$_SESSION['settings'][$reccord['intitule']] = $reccord['valeur'];
 }
 
 //pw complexity levels
@@ -88,8 +93,13 @@ date_default_timezone_set($_SESSION['settings']['timezone']);
 if (empty($languagesDropmenu)) {
     $languagesDropmenu = "";
     $languagesList = array();
-    $rows = $db->fetchAllArray("SELECT * FROM ".$pre."languages GROUP BY name ORDER BY name ASC");
-    foreach ($rows as $reccord) {
+	if (isset($_SESSION['Mysqli']) && $_SESSION['Mysqli'] != 1) {
+    	$results = $db->fetchAllArray("SELECT * FROM ".$pre."languages GROUP BY name ORDER BY name ASC");
+	} else {
+		$params = array('name', 'name');
+		$results = $db->rawQuery("SELECT * FROM ".$pre."languages GROUP BY ? ORDER BY ? ASC", $params);
+	}
+    foreach ($results as $reccord) {
         $languagesDropmenu .= '<li><a href="#"><img class="flag" src="includes/images/flags/'.
             $reccord['flag'].'"alt="'.$reccord['label'].'" title="'.
             $reccord['label'].'" onclick="ChangeLanguage(\''.$reccord['name'].'\')" /></a></li>';
@@ -145,7 +155,12 @@ if (
 
 /* CHECK IF SESSION EXISTS AND IF SESSION IS VALID */
 if (!empty($_SESSION['fin_session'])) {
-    $dataSession = $db->fetchRow("SELECT key_tempo FROM ".$pre."users WHERE id=".$_SESSION['user_id']);
+	if (isset($_SESSION['Mysqli']) && $_SESSION['Mysqli'] != 1) {
+    	$dataSession = $db->fetchRow("SELECT key_tempo FROM ".$pre."users WHERE id=".$_SESSION['user_id']);
+	} else {
+		$params = array($_SESSION['user_id']);
+		$dataSession = $db->rawQuery("SELECT key_tempo FROM ".$pre."users WHERE id = ?", $params);
+	}
 } else {
     $dataSession[0] = "";
 }
@@ -156,15 +171,25 @@ if (
     || empty($dataSession[0]))
 ) {
     // Update table by deleting ID
-    $db->queryUpdate(
-        "users",
-        array(
-            'key_tempo' => '',
-            'timestamp' => '',
-            'session_end' => ''
-       ),
-        "id=".$_SESSION['user_id']
-    );
+	if (isset($_SESSION['Mysqli']) && $_SESSION['Mysqli'] != 1) {
+	    $db->queryUpdate(
+	        "users",
+	        array(
+	            'key_tempo' => '',
+	            'timestamp' => '',
+	            'session_end' => ''
+	       ),
+	        "id=".$_SESSION['user_id']
+	    );
+	} else {
+		$updateData = array(
+			'key_tempo' => '',
+			'timestamp' => '',
+			'session_end' => ''
+		);
+		$db->where('id', $_SESSION['user_id']);
+		$results = $db->update($pre.'users', $updateData);
+	}
 
     //Log into DB the user's disconnection
     if (isset($_SESSION['settings']['log_connections']) && $_SESSION['settings']['log_connections'] == 1) {

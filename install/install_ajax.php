@@ -49,7 +49,9 @@ if (isset($_POST['type'])) {
             } else {
                 $txt .= '<span style=\"padding-left:30px;font-size:13pt;\">PHP extension \"openssl\"&nbsp;&nbsp;<img src=\"images/tick-circle.png\"></span><br />';
             }
-            if (ini_get('max_execution_time')<60) {
+
+/*
+if (ini_get('max_execution_time')<60) {
                 $okExtensions = false;
                 $txt .= '<span style=\"padding-left:30px;font-size:13pt;\">PHP \"Maximum '.
                     'execution time\" is set to '.ini_get('max_execution_time').' seconds.'.
@@ -60,6 +62,7 @@ if (isset($_POST['type'])) {
                     'execution time\" is set to '.ini_get('max_execution_time').' seconds'.
                     '&nbsp;&nbsp;<img src=\"images/tick-circle.png\"></span><br />';
             }
+*/
             if (version_compare(phpversion(), '5.3.0', '<')) {
                 $okVersion = false;
                 $txt .= '<span style=\"padding-left:30px;font-size:13pt;\">PHP version '.phpversion().' is not OK (minimum is 5.3.0) &nbsp;&nbsp;<img src=\"images/minus-circle.png\"></span><br />';
@@ -826,7 +829,7 @@ require_once \"".str_replace('\\', '/', $skFile)."\";
             } else {
                 echo 'document.getElementById("step5_skFile").innerHTML = "<img src=\"images/tick.png\">";';
             }
-            if (isset($result2) && $result2 != false && $result1 != false && $result3 != false) {
+            if (isset($result2) && $result2 != false && $result1 != false) {
                 echo 'gauge.modify($("pbar"),{values:[1,1]});';
                 echo 'document.getElementById("but_next").disabled = "";';
                 echo 'document.getElementById("res_step5").innerHTML = "Operations are successfully completed.";';

@@ -15,6 +15,12 @@ if (!isset($_SESSION['CPM']) || $_SESSION['CPM'] != 1) {
 //define pbkdf2 iteration count
 @define('ITCOUNT', '2072');
 
+// Load MysqliDb class
+if (isset($_SESSION['Mysqli']) && $_SESSION['Mysqli'] != 1) {
+	require_once $_SESSION['settings']['cpassman_dir'].'/includes/libraries/Database/MysqliDb/MysqliDb.php';
+	$db = new MysqliDb($server, $user, $pass, $database);
+}
+
 //Generate N# of random bits for use as salt
 function getBits($n)
 {
@@ -470,20 +476,31 @@ function logEvents($type, $label, $who)
 {
     global $server, $user, $pass, $database, $pre;
     // include librairies & connect to DB
-    $db = new SplClassLoader('Database\Core', '../includes/libraries');
-    $db->register();
-    $db = new Database\Core\DbCore($server, $user, $pass, $database, $pre);
-    $db->connect();
+	if (isset($_SESSION['Mysqli']) && $_SESSION['Mysqli'] != 1) {
+	    $db = new SplClassLoader('Database\Core', '../includes/libraries');
+	    $db->register();
+	    $db = new Database\Core\DbCore($server, $user, $pass, $database, $pre);
+	    $db->connect();
 
-    $db->queryInsert(
-        "log_system",
-        array(
-            'type' => $type,
-            'date' => time(),
-            'label' => $label,
-            'qui' => $who
-           )
-    );
+	    $db->queryInsert(
+	        "log_system",
+	        array(
+	            'type' => $type,
+	            'date' => time(),
+	            'label' => $label,
+	            'qui' => $who
+	           )
+	    );
+	} else {
+		$insertData = array(
+			'type' => $type,
+			'date' => time(),
+			'label' => $label,
+			'qui' => $who
+		);
+
+		$db->insert($pre.'log_system', $insertData);
+	}
 }
 
 /**
@@ -854,7 +871,7 @@ function prepareExchangedData($data, $type)
                 $data,
                 true
             );
-        } else {        
+        } else {
             return json_decode(
                 Encryption\Crypt\aesctr::decrypt($data, $_SESSION['key'], 256),
                 true

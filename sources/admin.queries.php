@@ -565,26 +565,4 @@ switch ($_POST['type']) {
 
         echo '[{"result":"admin_email_send_backlog", '.@sendEmail($txt['admin_email_test_subject'], $txt['admin_email_test_body'], $_SESSION['settings']['email_from']).'}]';
         break;
-
-    /*
-    * Generate exchanges encryption keys
-    */
-    case "admin_action_generate_encrypt_keys":
-        require_once("../includes/libraries/jCryption/jcryption.php");
-        $keyLength = 1024;
-        $jCryption = new jCryption();
-        $numberOfPairs = 100;
-        $arrKeyPairs = array();
-        for ($i=0; $i < $numberOfPairs; $i++) {
-            $arrKeyPairs[] = $jCryption->generateKeypair($keyLength);
-        }
-        $file = array();
-        $file[] = '<?php';
-        $file[] = '$arrKeys = ';
-        $file[] = var_export($arrKeyPairs, true);
-        $file[] = ';';
-        file_put_contents(SECUREPATH."/".$numberOfPairs . "_". $keyLength . "_keys.inc.php", implode("\n", $file));
-
-        echo '[{"result":"generated_keys_file", "error":""}]';
-        break;
 }
