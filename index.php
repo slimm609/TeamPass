@@ -59,16 +59,25 @@ require_once 'sources/main.functions.php';
 /* DEFINE WHAT LANGUAGE TO USE */
 if (!isset($_SESSION['user_id']) && !isset($_POST['language'])) {
     //get default language
-    $dataLanguage =
-        $db->fetchRow(
-            "SELECT valeur FROM ".$pre."misc
-            WHERE type = 'admin' AND intitule = 'default_language'"
-        );
-    if (empty($dataLanguage[0])) {
+	if (isset($_SESSION['Mysqli']) && $_SESSION['Mysqli'] != 1) {
+		$dataLanguage =
+	        $db->fetchRow(
+	        	"SELECT valeur FROM ".$pre."misc
+	            WHERE type = 'admin' AND intitule = 'default_language'"
+	        );
+	} else {
+		$params = array('admin', 'default_language');
+		$dataLanguage = $db->rawQuery(
+			"SELECT valeur FROM ".$pre."misc
+			WHERE type = ? AND intitule = ?", $params
+		);
+	}
+
+    if (empty($dataLanguage[0]['valeur'])) {
         $_SESSION['user_language'] = "english";
         $_SESSION['user_language_flag'] = "us.png";
     } else {
-        $_SESSION['user_language'] = $dataLanguage[0];
+        $_SESSION['user_language'] = $dataLanguage[0]['valeur'];
         $_SESSION['user_language_flag'] = "us.png";
     }
 } elseif (

@@ -37,7 +37,7 @@ INSTALLATION:
 * Once uploaded, launch install/install.php and follow instructions.
 
 NEEDS:
-* Apache, MySQL, PHP 5.3.0 (or higher) and mcrypt extension
+* Apache, MySQLi, PHP 5.3.0 (or higher) and mcrypt extension
 
 UPDATE:
 * Once uploaded, launch install/upgrade.php and follow instructions.
@@ -55,6 +55,8 @@ LANGUAGES:
 * ITALIAN		by Federico
 
 --------------------------------  CHANGELOG  -----------------------------------
+2.1.18 - MySQLi implementation replacing deprecated MySQL.
+
 2.1.18
  #315 - jstree style.css badly referenced
  #314 - Folder is not being deleted
