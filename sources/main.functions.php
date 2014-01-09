@@ -199,7 +199,7 @@ function decrypt($encrypted, $personalSalt = "")
 
 
 /**
- * genHash()
+ * bCrpyt()
  *
  * Generate a hash for user login
  */

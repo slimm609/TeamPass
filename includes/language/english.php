@@ -104,9 +104,9 @@ $txt['settings_upload_imageresize_options_q'] = "Resized image Quality";
 $txt['admin_upload_title']="Uploads";
 $txt['settings_importing'] = "Enable importing data from CVS/KeyPass files";
 $txt['admin_proxy_ip'] = "Proxy IP used";
-$txt['admin_proxy_ip_tip'] = "<span style='font-size:11px;max-width:300px;'>If your Internet connection goes through a proxy. Indicate here its IP.<br />Leave empty if no Proxy.</span>";
+$txt['admin_proxy_ip_tip'] = "If your Internet connection goes through a proxy. Indicate here its IP. Leave empty if no Proxy.";
 $txt['admin_proxy_port'] = "Proxy PORT used";
-$txt['admin_proxy_port_tip'] = "<span style='font-size:11px;max-width:300px;'>If you have set an IP for the Proxy, now indicate its PORT. Could be 8080.<br />Leave empty if no Proxy.</span>";
+$txt['admin_proxy_port_tip'] = "If you have set an IP for the Proxy, now indicate its PORT. Could be 8080. Leave empty if no Proxy.";
 $txt['settings_ldap_elusers'] = " Teampass local users only ";
 $txt['settings_ldap_elusers_tip'] = " This feature allows users in the database to authenticate via LDAP. Disable this if you want to browse any LDAP directory. ";
 
@@ -116,7 +116,7 @@ $txt['database_menu'] = "Database";
 $txt['db_items_edited'] = "Items actually in edition";
 $txt['item_edition_start_hour'] = "Edition started since";
 $txt['settings_delay_for_item_edition'] = "After how long an Item edition is considered as failed (in minutes)";
-$txt['settings_delay_for_item_edition_tip'] = "<span style='font-size:11px;max-width:300px;'>When editing an Item, the Item is locked so that no other parallel edition can be performed. A kind of token is reserved.<br />This setting permits to delete the token. If the value is set to 0 then the token will never be deleted (unless by Administrator)</span>";
+$txt['settings_delay_for_item_edition_tip'] = "When editing an Item, the Item is locked so that no other parallel edition can be performed. A kind of token is reserved. This setting permits to delete the token. If the value is set to 0 then the token will never be deleted (unless by Administrator)";
 $txt['db_users_logged'] = "Users actually logged";
 $txt['action'] = "Action";
 $txt['login_time'] = "Logged since";
@@ -130,7 +130,7 @@ $txt["disconnect_all_users_sure"] = "You have decided to disconnect all users. A
 $txt['role'] = "Role";
 
 $txt['admin_2factors_authentication_setting'] = "Enable Google 2-Factors authentication";
-$txt['admin_2factors_authentication_setting_tip'] = "<span style='font-size:11px;max-width:300px;'>Google 2-Factors autentication permits to add one more security level for user autentication. When user wants to login TeamPass, a QR code is generated. This QR code needs to be scanned by the user to get a one-time password.<br />WARNING: this extra needs an Internet connection and a scanner such as a smartphone.</span>";
+$txt['admin_2factors_authentication_setting_tip'] = "Google 2-Factors autentication permits to add one more security level for user autentication. When user wants to login TeamPass, a QR code is generated. This QR code needs to be scanned by the user to get a one-time password. WARNING: this extra needs an Internet connection and a scanner such as a smartphone.";
 $txt['2factors_tile'] = "2-Factors Autentication";
 $txt['2factors_image_text'] = "Please, scan the QR code";
 $txt['2factors_confirm_text'] = "Enter the one-time password";
