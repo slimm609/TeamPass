@@ -65,18 +65,18 @@ class DbCore
     # Param: $new_link can force connect() to open a new link, even if mysql_connect() was called before with the same parameters
     public function connect($new_link = false)
     {
-        $this->link_id=@mysql_connect($this->server, $this->user, $this->pass, $new_link);
+        $this->link_id=@mysqli_connect($this->server, $this->user, $this->pass, $new_link);
 
         if (!$this->link_id) {//open failed
             $this->oops("Could not connect to server: <b>$this->server</b>.");
         }
 
-        if (!@mysql_select_db($this->database, $this->link_id)) {//no database
+        if (!@mysqli_select_db($this->link_id, $this->database)) {//no database
             $this->oops("Could not open database: <b>$this->database</b>.");
         }
 
-        mysql_query("SET NAMES UTF8");
-        mysql_query("SET CHARACTER SET 'utf8'");
+        mysqli_query($this->link_id, "SET NAMES UTF8");
+        mysqli_query($this->link_id, "SET CHARACTER SET 'utf8'");
 
         // unset the data so it can't be dumped
         $this->server='';
@@ -90,7 +90,7 @@ class DbCore
     # desc: close the connection
     public function close()
     {
-        if (!@mysql_close($this->link_id)) {
+        if (!@mysqli_close($this->link_id)) {
             $this->oops("Connection close failed.");
         }
     }#-#close()
@@ -106,7 +106,7 @@ class DbCore
             $string = stripslashes($string);
         }
 
-        return @mysql_real_escape_string($string, $this->link_id);
+        return @mysqli_real_escape_string($this->link_id, $string);
     }#-#escape()
 
 
@@ -117,7 +117,7 @@ class DbCore
     public function query($sql)
     {
         // do query
-        $this->query_id = @mysql_query($sql, $this->link_id);
+        $this->query_id = @mysqli_query($this->link_id, $sql);
 
         if (!$this->query_id) {
             $this->oops("<b>MySQL Query fail:</b> $sql");
@@ -125,7 +125,7 @@ class DbCore
             return 0;
         }
 
-        $this->affected_rows = @mysql_affected_rows($this->link_id);
+        $this->affected_rows = @mysqli_affected_rows($this->link_id);
 
         return $this->query_id;
     }#-#query()
@@ -143,7 +143,7 @@ class DbCore
         }
 
         if (isset($this->query_id)) {
-            $record = @mysql_fetch_assoc($this->query_id);
+            $record = @mysqli_fetch_assoc($this->query_id);
         } else {
             $this->oops("Invalid query_id: <b>$this->query_id</b>. Records could not be fetched.");
         }
@@ -161,7 +161,7 @@ class DbCore
         // retrieve row
         $query_id = $this->query($sql);
 
-        $record = mysql_fetch_row($this->query_id);
+        $record = mysqli_fetch_row($this->query_id);
 
         $this->freeResult($query_id);
 
@@ -196,7 +196,7 @@ class DbCore
         if ($query_id!=-1) {
             $this->query_id=$query_id;
         }
-        if ($this->query_id!=0 && !@mysql_free_result($this->query_id)) {
+        if ($this->query_id!=0 && !@mysqli_free_result($this->query_id)) {
             $this->oops("Result ID: <b>$this->query_id</b> could not be freed.");
         }
     }#-#freeResult()
@@ -292,7 +292,7 @@ class DbCore
         $this->query($q);
         
         if (isset($this->link_id)) {
-            return mysql_insert_id($this->link_id);
+            return mysqli_insert_id($this->link_id);
         } else {            
             $this->oops("Result ID: <b>$this->query_id</b> could not be executed.");
             return false;
@@ -330,14 +330,14 @@ class DbCore
     private function oops($msg = '')
     {
         if ($this->link_id>0) {
-            $this->error=mysql_error($this->link_id);
-            $this->errno=mysql_errno($this->link_id);
+            $this->error=mysqli_error($this->link_id);
+            $this->errno=mysqli_errno($this->link_id);
         } else {
-            $this->error=mysql_error();
-            $this->errno=mysql_errno();
+            $this->error=mysqli_error($this->link_id);
+            $this->errno=mysqli_errno($this->link_id);
         }
         if ($this->errno != "1049") {
-            @mysql_query(
+            @mysqli_query($this->link_id,
                 "INSERT INTO ".$this->pre."log_system SET
                 date=".time().",
                 qui=".$_SESSION['user_id'].",
