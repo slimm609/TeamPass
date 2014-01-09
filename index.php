@@ -49,6 +49,7 @@ $db->connect();
 
 //load main functions needed
 require_once 'sources/main.functions.php';
+require_once 'sources/csrfguard.php';
 
 /* DEFINE WHAT LANGUAGE TO USE */
 if (!isset($_SESSION['user_id']) && !isset($_POST['language'])) {
