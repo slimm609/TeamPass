@@ -585,7 +585,7 @@ if (isset($_POST['type'])) {
             }
             /*
             ## TABLE 14 - ROLES_VALUES
-            $res14 = mysql_query("
+            $res14 = mysqli_query($dbTmp,"
                 CREATE TABLE IF NOT EXISTS `".$_SESSION['tbl_prefix']."roles_values` (
                   `role_id` int(12) NOT NULL,
                   `folder_id` int(12) NOT NULL
@@ -593,10 +593,10 @@ if (isset($_POST['type'])) {
             if ($res14) {
                 echo 'document.getElementById("tbl_14").innerHTML = "<img src=\"images/tick.png\">";';
             } else {
-                echo 'document.getElementById("res_step4").innerHTML = "An error appears on table ITEMS! '.mysql_error().'";';
+                echo 'document.getElementById("res_step4").innerHTML = "An error appears on table ITEMS! '.mysqli_error($dbTmp).'";';
                 echo 'document.getElementById("tbl_14").innerHTML = "<img src=\"images/exclamation-red.png\">";';
                 echo 'document.getElementById("loader").style.display = "none";';
-                mysql_close($dbTmp);
+                mysqli_close($dbTmp);
                 break;
             }
             */
