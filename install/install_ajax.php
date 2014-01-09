@@ -771,7 +771,7 @@ if (isset($_POST['type'])) {
             }
 
             ## TABLE categories_items
-            $res = mysqli_query(
+            $res = mysqli_query($dbTmp,
                 "CREATE TABLE IF NOT EXISTS `".$_SESSION['tbl_prefix']."categories_items` (
                 `id` int(12) NOT NULL AUTO_INCREMENT,
                 `field_id` int(11) NOT NULL,
