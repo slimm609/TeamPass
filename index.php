@@ -480,7 +480,9 @@ if (isset($_SESSION['validite_pw']) && $_SESSION['validite_pw'] == true && !empt
                 class="ui-state-error ui-corner-all">
                 <b>'.$txt['index_maintenance_mode'].'</b>
             </div>';
-    } else {
+    } 
+     /*	
+	else {
         // SESSION FINISHED => RECONNECTION ASKED
         echo '
                 <div style="text-align:center;margin-top:30px;margin-bottom:20px;padding:10px;"
@@ -488,7 +490,7 @@ if (isset($_SESSION['validite_pw']) && $_SESSION['validite_pw'] == true && !empt
                     <b>'.$txt['index_session_expired'].'</b>
                 </div>';
     }
-
+	*/
     // CONNECTION FORM
     echo '
             <form method="post" name="form_identify" id="form_identify" action="">

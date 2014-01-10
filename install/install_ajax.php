@@ -94,16 +94,16 @@ if (isset($_POST['type'])) {
             if ($dbTmp = @mysqli_connect($_POST['db_host'], $_POST['db_login'], $dbPassword)) {
                 if (@mysqli_select_db($dbTmp, $_POST['db_bdd'])) {
                     echo 'gauge.modify($("pbar"),{values:[0.40,1]});';
-                    $res = "Connection is successfull";
+                    $res = "Connection is successful";
                     echo 'document.getElementById("but_next").disabled = "";';
                 } else {
                     echo 'gauge.modify($("pbar"),{values:[0.30,1]});';
-                    $res = "Impossible to get connected to table";
+                    $res = "Failed to connect to table";
                     echo 'document.getElementById("but_next").disabled = "disabled";';
                 }
             } else {
                 echo 'gauge.modify($("pbar"),{values:[0.30,1]});';
-                $res = "Impossible to get connected to server";
+                $res = "Failed to connect to server";
                 echo 'document.getElementById("but_next").disabled = "disabled";';
             }
             echo 'document.getElementById("res_step2").innerHTML = "'.$res.'";';
