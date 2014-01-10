@@ -1,4 +1,5 @@
 <?php
+require_once('../sources/sessions.php');
 session_start();
 include $_SESSION['settings']['cpassman_dir'].'/includes/settings.php';
 global $k;

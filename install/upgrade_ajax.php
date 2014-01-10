@@ -1,4 +1,5 @@
 <?php
+require_once('../sources/sessions.php');
 session_start();
 
 require_once '../includes/language/english.php';
