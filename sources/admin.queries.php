@@ -23,7 +23,7 @@ include $_SESSION['settings']['cpassman_dir'].'/includes/language/'.$_SESSION['u
 include $_SESSION['settings']['cpassman_dir'].'/includes/settings.php';
 include $_SESSION['settings']['cpassman_dir'].'/includes/include.php';
 header("Content-type: text/html; charset=utf-8");
-header("Cache-Control: no-cache, must-revalidate");
+header("Cache-Control: no-cache, no-store, must-revalidate");
 header("Pragma: no-cache");
 
 require_once $_SESSION['settings']['cpassman_dir'].'/sources/SplClassLoader.php';
