@@ -377,11 +377,10 @@ if (isset($_SESSION['settings']['ldap_mode']) && $_SESSION['settings']['ldap_mod
     $_SESSION['validite_pw'] = true;
     $_SESSION['last_pw_change'] = true;
 } else {
-    if (isset($_SESSION['last_pw_change'])) {
-        if ($_SESSION['settings']['pw_life_duration'] == 0) {
+    if ($_SESSION['settings']['pw_life_duration'] == 0){
             $numDaysBeforePwExpiration = "infinite";
             $_SESSION['validite_pw'] = true;
-        } else {
+   } else if (isset($_SESSION['last_pw_change']) && !empty($_SESSION['last_pw_change'])) {
             $numDaysBeforePwExpiration = $_SESSION['settings']['pw_life_duration'] - round(
                 (mktime(0, 0, 0, date('m'), date('d'), date('y'))-$_SESSION['last_pw_change'])/(24*60*60)
             );
@@ -390,10 +389,9 @@ if (isset($_SESSION['settings']['ldap_mode']) && $_SESSION['settings']['ldap_mod
             } else {
                 $_SESSION['validite_pw'] = true;
             }
-        }
-    } else {
-        $_SESSION['validite_pw'] = false;
-    }
+  } else {
+        $_SESSION['validite_pw'] = true;
+  }
 }
 
 /*
