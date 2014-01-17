@@ -465,6 +465,7 @@ if (isset($_POST['save_button'])) {
 echo '
 <div style="margin-top:10px;">
     <form name="form_settings" method="post" action="">';
+    csrfguard_manual_inject();
 // Main div for TABS
 echo '
         <div style="width:900px;margin:auto; line-height:20px; padding:10px;" id="tabs">';

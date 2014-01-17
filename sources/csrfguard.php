@@ -92,6 +92,16 @@ function csrfguard_inject()
 	$data=csrfguard_replace_forms($data);
 	echo $data;
 }
+
+function csrfguard_manual_inject()
+{
+$name="CSRFGuard_".mt_rand(0,mt_getrandmax());
+$token=csrfguard_generate_token($name);
+echo "
+<input type='hidden' name='CSRFName' value='{$name}' />
+<input type='hidden' name='CSRFToken' value='{$token}' />";
+}
+
 function csrfguard_start()
 {
 	if (count($_POST))
